@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script que realizar um dump da base de dados do Mongo DB rodando em container
+# Script que realiza um dump da base de dados do Mongo DB rodando em container
 # no diretório corrente, após isso o arquivo .dump é enviado para o bucket no S3
 # Author: Engels Souza - engels.franca@gmail.com
 # Version: 2.1.0 -> 2.2.0 (05/06/2024) 
@@ -10,7 +10,7 @@
 DATA=$(date +%d-%m-%Y)
 ARQ_LOG="/var/log/dump-mongodb-logs.log"
 LINHA="------------------------------------------------------------------"
-CONTAINER_ID=$(docker container ls | grep -w "mongo" | grep -v "mongo-express" | cut -f1 -d' ')
+CONTAINER_ID=$(docker container ls | grep -w "mongo" | grep -v "mongo-express" | cut -f1 -d' ') #captura do ID do container do mongo
 VERIFICA_CONTAINERS=$(docker container ls | wc -l)
 
 if [ $VERIFICA_CONTAINERS -eq 1 ]; then
@@ -37,4 +37,4 @@ echo "enviando arquivo de dump para o S3" >> $ARQ_LOG
 aws s3 cp logSIGP-$DATA.dump s3://mongodb-notas/ >> $ARQ_LOG
 
 echo "Arquivo enviado, backup concluído" >> $ARQ_LOG
-
+echo "done!"
